@@ -1,0 +1,46 @@
+/* access-styles.css - Styles for the Access tab */
+
+/* Table Styles */
+#accessTable {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+#accessTable th,
+#accessTable td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+}
+
+#accessTable th {
+    background-color: #f0f0f0;
+}
+
+/* Form Styles */
+#memberForm {
+    margin-top: 20px;
+    padding: 15px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    background-color: #f8f8f8;
+}
+
+#memberForm label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+#memberForm input[type="text"],
+#memberForm select {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 10px;
+    border: 1px solid #ddd;
+    border-radius: 3px;
+    box-sizing: border-box;
+}
+
+#memberForm input[type="checkbox"] {
+    margin-right: 5px;
+}
