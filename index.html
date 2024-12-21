@@ -173,28 +173,28 @@
     </style>
 </head>
 <body>
-<div class="sidebar">
-    <img src="https://imaginebc.net/wp-content/uploads/2024/12/ImagineBC_H_BnWLogo.png" alt="ImagineBC Logo">
-    <ul>
-        <li>Dashboard</li>
-        <li>Verification</li>
-        <li>Finance</li>
-        <li>Manage Partner</li>
-        <li>Administration</li>
-        <li>Tools</li>
-        <li>Utilities</li>
-        <li>Member Support</li>
-        <li>Reports</li>
-        <li>Log Out</li>
-    </ul>
-</div>
+    <div class="sidebar">
+        <img src="path/to/your/image.png" alt="ImagineBC Logo">
+        <ul>
+            <li>Dashboard</li>
+            <li>Verification</li>
+            <li>Finance</li>
+            <li>Manage Partner</li>
+            <li>Administration</li>
+            <li>Tools</li>
+            <li>Utilities</li>
+            <li>Member Support</li>
+            <li>Reports</li>
+            <li>Log Out</li>
+        </ul>
+    </div>
     <div class="main-container">
         <div class="header">
             <a href="javascript:void(0)" class="back-arrow" role="button" aria-label="Back">&#8592;</a>
             Partner: Swahili Pot
         </div>
         <div class="tab-container" role="tablist">
-            <div class="tab active" id="content-tab" onclick="showTabContent('content')" role="tab" aria-selected="true" aria-controls="content-panel">Content</div>
+            <div class="tab" id="content-tab" onclick="showTabContent('content')" role="tab" aria-selected="false" aria-controls="content-panel">Content</div>
             <div class="tab" id="access-tab" onclick="showTabContent('access')" role="tab" aria-selected="false" aria-controls="access-panel">Access</div>
             <div class="tab" id="monetization-tab" onclick="showTabContent('monetization')" role="tab" aria-selected="false" aria-controls="monetization-panel">Monetization</div>
             <div class="tab" id="registration-tab" onclick="showTabContent('registration')" role="tab" aria-selected="false" aria-controls="registration-panel">Registration</div>
@@ -207,11 +207,10 @@
             <div class="tab" id="feed-tab" onclick="showTabContent('feed')" role="tab" aria-selected="false" aria-controls="feed-panel">FEED Page</div>
         </div>
         <div class="tab-content" id="tabContent"></div>
-
         <script>
             window.addEventListener("DOMContentLoaded", () => {
-                showTabContent('content');
-                initializeAccessTab(); // Initialize access tab data and event listeners on page load
+                initializeAccessTab();
+                showTabContent('access');
             });
 
             function showTabContent(tabId) {
@@ -225,6 +224,7 @@
                     tab.classList.remove('active');
                     tab.setAttribute('aria-selected', 'false');
                 });
+
                 const activeTab = document.getElementById(`${tabId}-tab`);
                 activeTab.classList.add('active');
                 activeTab.setAttribute('aria-selected', 'true');
@@ -368,7 +368,7 @@
 
                 // Function to render the access table
                 function renderAccessTable() {
-                    const tbody = accessTable.querySelector('tbody');
+                    const tbody = document.querySelector('#accessTable tbody');
                     tbody.innerHTML = ''; // Clear existing table data
 
                     if (membersData.length === 0) {
@@ -381,19 +381,19 @@
                     membersData.forEach(member => {
                         const row = document.createElement('tr');
                         row.innerHTML = `
-                            <td>${member.memberId}</td>
-                            <td>${member.knownAs}</td>
-                            <td>${member.accessAuthority}</td>
-                            <td>${member.hidden ? 'Yes' : 'No'}</td>
-                            <td>${member.posts ? 'Yes' : 'No'}</td>
-                            <td>${member.longStreams ? 'Yes' : 'No'}</td>
-                            <td>${member.articles ? 'Yes' : 'No'}</td>
-                            <td>${member.longReads ? 'Yes' : 'No'}</td>
-                            <td>${member.folios ? 'Yes' : 'No'}</td>
-                            <td>${member.subscribed ? 'Yes' : 'No'}</td>
-                            <td>${member.frequency}</td>
-                            <td>
-                                <button class="editButton" data-member-id="${member.memberId}">Edit</button>
+                            <td><span class="math-inline">\{member\.memberId\}</td\>
+<td\></span>{member.knownAs}</td>
+                            <td><span class="math-inline">\{member\.accessAuthority\}</td\>
+<td\></span>{member.hidden ? 'Yes' : 'No'}</td>
+                            <td><span class="math-inline">\{member\.posts ? 'Yes' \: 'No'\}</td\>
+<td\></span>{member.longStreams ? 'Yes' : 'No'}</td>
+                            <td><span class="math-inline">\{member\.articles ? 'Yes' \: 'No'\}</td\>
+<td\></span>{member.longReads ? 'Yes' : 'No'}</td>
+                            <td><span class="math-inline">\{member\.folios ? 'Yes' \: 'No'\}</td\>
+<td\></span>{member.subscribed ? 'Yes' : 'No'}</td>
+                            <td><span class="math-inline">\{member\.frequency\}</td\>
+<td\>
+<button class\="editButton" data\-member\-id\="</span>{member.memberId}">Edit</button>
                                 <button class="deleteButton" data-member-id="${member.memberId}">Delete</button>
                             </td>
                         `;
