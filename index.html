@@ -207,41 +207,243 @@
             <div class="tab" id="feed-tab" onclick="showTabContent('feed')" role="tab" aria-selected="false" aria-controls="feed-panel">FEED Page</div>
         </div>
         <div class="tab-content" id="tabContent"></div>
-    <script>
-        window.addEventListener("DOMContentLoaded", () => {
-            showTabContent('content');
+<script>
+    window.addEventListener("DOMContentLoaded", () => {
+        showTabContent('content');
+    });
+
+    function showTabContent(tabId) {
+        const validTabs = ['content', 'access', 'monetization', 'registration', 'specialBalance', 'community', 'restrictions', 'security', 'properties', 'rewards', 'feed'];
+        if (!validTabs.includes(tabId)) {
+            console.error("Invalid tab ID:", tabId);
+            return;
+        }
+
+        document.querySelectorAll('.tab').forEach(tab => {
+            tab.classList.remove('active');
+            tab.setAttribute('aria-selected', 'false');
+        });
+        const activeTab = document.getElementById(`${tabId}-tab`);
+        activeTab.classList.add('active');
+        activeTab.setAttribute('aria-selected', 'true');
+
+        fetch(`${tabId}.html`)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`Failed to fetch content for ${tabId}. Status: ${response.status}`);
+                }
+                return response.text();
+            })
+            .then(html => {
+                document.getElementById('tabContent').innerHTML = html;
+            })
+            .catch(error => {
+                console.error('Error loading tab content:', error);
+                document.getElementById('tabContent').innerHTML = `<p>Error loading content for ${tabId}.</p>`;
+            });
+
+        if (tabId === 'access') {
+            initializeAccessTab();
+        }
+    }
+
+    // Data Structure for Temporary Storage (replace with database later)
+    let membersData = [];
+
+    // Function to generate a random 7-character string (for Member ID)
+    function generateMemberId() {
+        const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+        let result = '';
+        for (let i = 0; i < 7; i++) {
+            result += chars.charAt(Math.floor(Math.random() * chars.length));
+        }
+        return result;
+    }
+
+    // Function to initialize the Access tab
+    function initializeAccessTab() {
+        const addMemberButton = document.getElementById('addMemberButton');
+        const memberForm = document.getElementById('memberForm');
+        const accessTable = document.getElementById('accessTable');
+        const noMembersMessage = document.getElementById('noMembersMessage');
+        const memberDataForm = document.getElementById('memberDataForm');
+        const cancelButton = document.getElementById('cancelButton');
+
+        // Load initial data (if any)
+        if (membersData.length === 0) {
+            membersData.push({
+                memberId: generateMemberId(),
+                referralCode: 'REF001',
+                knownAs: 'John Doe',
+                accessAuthority: 'Administrator',
+                hidden: false,
+                posts: true,
+                longStreams: true,
+                articles: false,
+                longReads: true,
+                folios: false,
+                subscribed: true,
+                frequency: 'Monthly'
+            });
+
+            membersData.push({
+                memberId: generateMemberId(),
+                referralCode: 'REF002',
+                knownAs: 'Jane Smith',
+                accessAuthority: 'Contributor',
+                hidden: true,
+                posts: false,
+                longStreams: false,
+                articles: true,
+                longReads: false,
+                folios: true,
+                subscribed: false,
+                frequency: 'Weekly'
+            });
+        }
+
+        // Display initial table data
+        renderAccessTable();
+
+        // Event listener for "Add Member Access" button
+        addMemberButton.addEventListener('click', () => {
+            memberDataForm.reset();
+            document.getElementById('editMemberId').value = '';
+            memberForm.style.display = 'block';
+            noMembersMessage.style.display = 'none';
         });
 
-        function showTabContent(tabId) {
-            const validTabs = ['content', 'access', 'monetization', 'registration', 'specialBalance', 'community', 'restrictions', 'security', 'properties', 'rewards', 'feed'];
-            if (!validTabs.includes(tabId)) {
-                console.error("Invalid tab ID:", tabId);
-                return;
+        // Event listener for form submission
+        memberDataForm.addEventListener('submit', (event) => {
+            event.preventDefault();
+
+            // Get values from form
+            const memberId = document.getElementById('editMemberId').value || generateMemberId();
+            const referralCode = document.getElementById('referralCode').value;
+            const knownAs = document.getElementById('knownAs').value;
+            const accessAuthority = document.getElementById('accessAuthority').value;
+            const hidden = document.getElementById('hidden').checked;
+            const posts = document.getElementById('posts').checked;
+            const longStreams = document.getElementById('longStreams').checked;
+            const articles = document.getElementById('articles').checked;
+            const longReads = document.getElementById('longReads').checked;
+            const folios = document.getElementById('folios').checked;
+
+            // Create/update member object
+            const memberData = {
+                memberId,
+                referralCode,
+                knownAs,
+                accessAuthority,
+                hidden,
+                posts,
+                longStreams,
+                articles,
+                longReads,
+                folios,
+                subscribed: false,
+                frequency: 'Monthly'
+            };
+
+            // Add or update member in membersData array
+            const existingMemberIndex = membersData.findIndex(m => m.memberId === memberId);
+            if (existingMemberIndex >= 0) {
+                membersData[existingMemberIndex] = memberData;
+            } else {
+                membersData.push(memberData);
             }
 
-            document.querySelectorAll('.tab').forEach(tab => {
-                tab.classList.remove('active');
-                tab.setAttribute('aria-selected', 'false');
-            });
-            const activeTab = document.getElementById(`${tabId}-tab`);
-            activeTab.classList.add('active');
-            activeTab.setAttribute('aria-selected', 'true');
+            // Re-render the table
+            renderAccessTable();
 
-            fetch(`${tabId}.html`)
-                .then(response => {
-                    if (!response.ok) {
-                        throw new Error(`Failed to fetch content for ${tabId}. Status: ${response.status}`);
+            // Hide the form
+            memberForm.style.display = 'none';
+        });
+
+        // Event listener for cancel button in form
+        cancelButton.addEventListener('click', () => {
+            memberForm.style.display = 'none';
+            if (membersData.length === 0) {
+                noMembersMessage.style.display = 'block';
+            }
+        });
+
+        // Function to render the access table
+        function renderAccessTable() {
+            const tbody = accessTable.querySelector('tbody');
+            tbody.innerHTML = ''; // Clear existing table data
+
+            if (membersData.length === 0) {
+                noMembersMessage.style.display = 'block';
+                return;
+            } else {
+                noMembersMessage.style.display = 'none';
+            }
+
+            membersData.forEach(member => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${member.memberId}</td>
+                    <td>${member.knownAs}</td>
+                    <td>${member.accessAuthority}</td>
+                    <td>${member.hidden ? 'Yes' : 'No'}</td>
+                    <td>${member.posts ? 'Yes' : 'No'}</td>
+                    <td>${member.longStreams ? 'Yes' : 'No'}</td>
+                    <td>${member.articles ? 'Yes' : 'No'}</td>
+                    <td>${member.longReads ? 'Yes' : 'No'}</td>
+                    <td>${member.folios ? 'Yes' : 'No'}</td>
+                    <td>${member.subscribed ? 'Yes' : 'No'}</td>
+                    <td>${member.frequency}</td>
+                    <td>
+                        <button class="editButton" data-member-id="${member.memberId}">Edit</button>
+                        <button class="deleteButton" data-member-id="${member.memberId}">Delete</button>
+                    </td>
+                `;
+                tbody.appendChild(row);
+            });
+
+            // Add event listeners to Edit and Delete buttons
+            accessTable.querySelectorAll('.editButton').forEach(button => {
+                button.addEventListener('click', () => {
+                    const memberId = button.dataset.memberId;
+                    const member = membersData.find(m => m.memberId === memberId);
+                    if (member) {
+                        populateFormForEdit(member);
+                        memberForm.style.display = 'block';
                     }
-                    return response.text();
-                })
-                .then(html => {
-                    document.getElementById('tabContent').innerHTML = html;
-                })
-                .catch(error => {
-                    console.error('Error loading tab content:', error);
-                    document.getElementById('tabContent').innerHTML = `<p>Error loading content for ${tabId}.</p>`;
                 });
+            });
+
+            accessTable.querySelectorAll('.deleteButton').forEach(button => {
+                button.addEventListener('click', () => {
+                    const memberId = button.dataset.memberId;
+                    if (confirm('Are you sure you want to delete this member?')) {
+                        deleteMember(memberId);
+                    }
+                });
+            });
         }
-    </script>
+
+        // Function to populate the form for editing
+        function populateFormForEdit(member) {
+            document.getElementById('editMemberId').value = member.memberId;
+            document.getElementById('referralCode').value = member.referralCode;
+            document.getElementById('knownAs').value = member.knownAs;
+            document.getElementById('accessAuthority').value = member.accessAuthority;
+            document.getElementById('hidden').checked = member.hidden;
+            document.getElementById('posts').checked = member.posts;
+            document.getElementById('longStreams').checked = member.longStreams;
+            document.getElementById('articles').checked = member.articles;
+            document.getElementById('longReads').checked = member.longReads;
+            document.getElementById('folios').checked = member.folios;
+        }
+
+        // Function to delete a member
+        function deleteMember(memberId) {
+            membersData = membersData.filter(m => m.memberId !== memberId);
+            renderAccessTable();
+        }
+    }
+</script>
 </body>
 </html>
