@@ -1,50 +1,84 @@
-<div class="access-tab" role="tabpanel" id="access-panel" aria-labelledby="access-tab">
-    <div class="button-container">
-        <button class="add-access-button">Add Member Access</button>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="access-styles.css">
+    <title>Access Tab</title>
+</head>
+<body>
+    <div class="access-tab" role="tabpanel" id="access-panel" aria-labelledby="access-tab">
+        <div class="button-container">
+            <button class="add-access-button" id="addMemberButton">Add Member Access</button>
+        </div>
+    
+        <div id="noMembersMessage" style="display: none;">
+            <p>No members are currently granted access to this table. Click on 'Add Member Access' to grant a member authority to the channel.</p>
+        </div>
+    
+        <table id="accessTable">
+            <thead>
+                <tr>
+                    <th>Member</th>
+                    <th>Known As</th>
+                    <th>Access Authority</th>
+                    <th>Hidden</th>
+                    <th>Posts</th>
+                    <th>Long Streams</th>
+                    <th>ARTICLES</th>
+                    <th>Long Reads</th>
+                    <th>Folios</th>
+                    <th>Subscribed</th>
+                    <th>Frequency</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                </tbody>
+        </table>
+    
+        <div id="memberForm" style="display: none;">
+            <h2>Add/Edit Member</h2>
+            <form id="memberDataForm">
+                <label for="referralCode">Referral Code (req):</label><br>
+                <input type="text" id="referralCode" name="referralCode" required><br><br>
+    
+                <label for="knownAs">Known As (optional):</label><br>
+                <input type="text" id="knownAs" name="knownAs"><br><br>
+    
+                <label for="accessAuthority">Access Authority:</label><br>
+                <select id="accessAuthority" name="accessAuthority">
+                    <option value="Administrator">Administrator</option>
+                    <option value="Contributor">Contributor</option>
+                    <option value="Reviewer">Reviewer</option>
+                    <option value="Follower">Follower</option>
+                </select><br><br>
+    
+                <label for="hidden">Hidden:</label>
+                <input type="checkbox" id="hidden" name="hidden"><br><br>
+    
+                <label for="posts">Able to create posts:</label>
+                <input type="checkbox" id="posts" name="posts"><br><br>
+    
+                <label for="longStreams">Upload long streams:</label>
+                <input type="checkbox" id="longStreams" name="longStreams"><br><br>
+    
+                <label for="articles">Upload articles:</label>
+                <input type="checkbox" id="articles" name="articles"><br><br>
+    
+                <label for="longReads">Upload Long reads:</label>
+                <input type="checkbox" id="longReads" name="longReads"><br><br>
+    
+                <label for="folios">Update Photo Albums:</label>
+                <input type="checkbox" id="folios" name="folios"><br><br>
+    
+                <input type="hidden" id="editMemberId">
+    
+                <button type="submit" id="saveMemberButton">Save</button>
+                <button type="button" id="cancelButton">Cancel</button>
+            </form>
+        </div>
     </div>
-    <table>
-        <thead>
-            <tr>
-                <th>Member</th>
-                <th>Known As</th>
-                <th>Access Authority</th>
-                <th>Hidden</th>
-                <th>Posts</th>
-                <th>Long Streams</th>
-                <th>ARTICLES</th>
-                <th>Long Reads</th>
-                <th>Folios</th>
-                <th>Subscribed</th>
-                <th>Frequency</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td>JohnDoe123</td>
-                <td>John Doe</td>
-                <td>Admin</td>
-                <td>Yes</td>
-                <td>Yes</td>
-                <td>No</td>
-                <td>Yes</td>
-                <td>No</td>
-                <td>Yes</td>
-                <td>Yes</td>
-                <td>Monthly</td>
-            </tr>
-            <tr>
-                <td>JaneSmith456</td>
-                <td>Jane Smith</td>
-                <td>User</td>
-                <td>No</td>
-                <td>No</td>
-                <td>Yes</td>
-                <td>No</td>
-                <td>Yes</td>
-                <td>No</td>
-                <td>Yes</td>
-                <td>Weekly</td>
-            </tr>
-        </tbody>
-    </table>
-</div>
+    
+</body>
+</html>
