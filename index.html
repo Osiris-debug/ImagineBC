@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Partner Details</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f9f9f9;
+        }
+        .sidebar {
+            width: 240px;
+            background-color: #0075A9;
+            color: #ffffff;
+            height: 100vh;
+            position: fixed;
+            padding-top: 20px;
+            text-align: center;
+        }
+        .sidebar img {
+            max-width: 80%;
+            margin-bottom: 30px;
+        }
+        .sidebar ul {
+            list-style: none;
+            padding: 0;
+            text-align: left;
+        }
+        .sidebar li {
+            padding: 10px 20px;
+        }
+        .sidebar li:hover {
+            background-color: #005b80;
+            cursor: pointer;
+        }
+        .main-container {
+            margin-left: 240px;
+            padding: 20px;
+        }
+        .header {
+            font-size: 24px;
+            color: #0075A9;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+        }
+        .back-arrow {
+            font-size: 24px;
+            color: #0075A9;
+            text-decoration: none;
+            margin-right: 10px;
+            transition: color 0.3s;
+        }
+        .back-arrow:hover {
+            color: #005b80;
+        }
+        .tab-container {
+            margin-top: 20px;
+        }
+        .tab {
+            display: inline-block;
+            background-color: #e0e0e0;
+            color: #333;
+            padding: 10px 20px;
+            margin-right: 10px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .tab:hover {
+            background-color: #d0d0d0;
+        }
+        .tab.active {
+            background-color: #0075A9;
+            color: white;
+        }
+        .tab-content {
+            margin-top: 20px;
+            padding: 20px;
+            background-color: white;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        .content-tab {
+            padding: 20px;
+        }
+        .content-tab h3 {
+            font-size: 20px;
+            color: #0075A9;
+            margin-bottom: 15px;
+        }
+        .content-tab table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+        .content-tab th, .content-tab td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        .content-tab th {
+            background-color: #0075A9;
+            color: white;
+        }
+        .content-tab tr:nth-child(even) {
+            background-color: #f1f9ff;
+        }
+        .content-tab tr:hover {
+            background-color: #e6f7ff;
+        }
+        .content-tab .actions-icons {
+            display: flex;
+            gap: 8px;
+            justify-content: center;
+        }
+        .content-tab .actions-icons img {
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+        }
+        .add-content-button {
+            background-color: #0075A9;
+            color: white;
+            padding: 8px 16px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-bottom: 10px;
+        }
+        .add-content-button:hover {
+            background-color: #005b80;
+        }
+        .access-tab {
+            padding: 20px;
+        }
+        .access-tab table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+        .access-tab th, .access-tab td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        .access-tab th {
+            background-color: #0075A9;
+            color: white;
+        }
+        .access-tab tr:nth-child(even) {
+            background-color: #f1f9ff;
+        }
+        .access-tab tr:hover {
+            background-color: #e6f7ff;
+        }
+        .add-access-button {
+            background-color: #0075A9;
+            color: white;
+            padding: 8px 16px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-bottom: 10px;
+        }
+        .add-access-button:hover {
+            background-color: #005b80;
+        }
+    </style>
+</head>
+<body>
+    <div class="sidebar">
+        <img src="https://imaginebc.net/wp-content/uploads/2024/12/ImagineBC_H_BnWLogo.png" alt="ImagineBC Logo">
+        <ul>
+            <li>Dashboard</li>
+            <li>Verification</li>
+            <li>Finance</li>
+            <li>Manage Partner</li>
+            <li>Administration</li>
+            <li>Tools</li>
+            <li>Utilities</li>
+            <li>Member Support</li>
+            <li>Reports</li>
+            <li>Log Out</li>
+        </ul>
+    </div>
+    <div class="main-container">
+        <div class="header">
+            <a href="#" class="back-arrow">&#8592;</a>
+            Partner: Swahili Pot
+        </div>
+        <div class="tab-container" role="tablist">
+            <div class="tab active" id="content-tab" onclick="showTabContent('content')" role="tab" aria-selected="true" aria-controls="content-panel">Content</div>
+            <div class="tab" id="access-tab" onclick="showTabContent('access')" role="tab" aria-selected="false" aria-controls="access-panel">Access</div>
+            <div class="tab" id="monetization-tab" onclick="showTabContent('monetization')" role="tab" aria-selected="false" aria-controls="monetization-panel">Monetization</div>
+            <div class="tab" id="registration-tab" onclick="showTabContent('registration')" role="tab" aria-selected="false" aria-controls="registration-panel">Registration</div>
+            <div class="tab" id="specialBalance-tab" onclick="showTabContent('specialBalance')" role="tab" aria-selected="false" aria-controls="specialBalance-panel">Special Balance</div>
+            <div class="tab" id="community-tab" onclick="showTabContent('community')" role="tab" aria-selected="false" aria-controls="community-panel">Community</div>
+            <div class="tab" id="restrictions-tab" onclick="showTabContent('restrictions')" role="tab" aria-selected="false" aria-controls="restrictions-panel">Restrictions</div>
+            <div class="tab" id="security-tab" onclick="showTabContent('security')" role="tab" aria-selected="false" aria-controls="security-panel">Security</div>
+            <div class="tab" id="properties-tab" onclick="showTabContent('properties')" role="tab" aria-selected="false" aria-controls="properties-panel">Properties</div>
+            <div class="tab" id="rewards-tab" onclick="showTabContent('rewards')" role="tab" aria-selected="false" aria-controls="rewards-panel">REWARDS Page</div>
+            <div class="tab" id="feed-tab" onclick="showTabContent('feed')" role="tab" aria-selected="false" aria-controls="feed-panel">FEED Page</div>
+        </div>
+        <div class="tab-content" id="tabContent"></div>
+    <script>
+        window.addEventListener("DOMContentLoaded", () => {
+            showTabContent('content');
+        });
+
+        function showTabContent(tabId) {
+            const validTabs = ['content', 'access', 'monetization', 'registration', 'specialBalance', 'community', 'restrictions', 'security', 'properties', 'rewards', 'feed'];
+            if (!validTabs.includes(tabId)) {
+                console.error("Invalid tab ID:", tabId);
+                return;
+            }
+
+            document.querySelectorAll('.tab').forEach(tab => {
+                tab.classList.remove('active');
+                tab.setAttribute('aria-selected', 'false');
+            });
+            const activeTab = document.getElementById(`${tabId}-tab`);
+            activeTab.classList.add('active');
+            activeTab.setAttribute('aria-selected', 'true');
+
+            fetch(`${tabId}.html`)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error(`Failed to fetch content for ${tabId}. Status: ${response.status}`);
+                    }
+                    return response.text();
+                })
+                .then(html => {
+                    document.getElementById('tabContent').innerHTML = html;
+                })
+                .catch(error => {
+                    console.error('Error loading tab content:', error);
+                    document.getElementById('tabContent').innerHTML = `<p>Error loading content for ${tabId}.</p>`;
+                });
+        }
+    </script>
+</body>
+</html>
